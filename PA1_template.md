@@ -7,7 +7,6 @@ output:
 
 
 
-
 ## Loading and preprocessing the data
 library(dplyr)
 library(ggplot2)
