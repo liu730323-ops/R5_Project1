@@ -10,14 +10,17 @@ knitr::opts_chunk$set(echo = TRUE, fig.path = "figure/")
 ```
 
 ## Loading and preprocessing the data
+```{r}
 library(dplyr)
 library(ggplot2)
 library(lubridate)
 
 activity <- read.csv("activity.csv", stringsAsFactors = FALSE)
 activity$date <- as.Date(activity$date)
+```
 
 ## What is mean total number of steps taken per day?
+```{r}
 daily_steps <- aggregate(steps ~ date, activity, sum, na.rm = TRUE)
 
 hist(daily_steps$steps,
@@ -26,8 +29,10 @@ xlab = "Total steps per day")
 
 mean(daily_steps$steps)
 median(daily_steps$steps)
+```
 
 ## What is the average daily activity pattern?
+```{r}
 interval_avg <- aggregate(steps ~ interval, activity, mean, na.rm = TRUE)
 
 plot(interval_avg$interval, interval_avg$steps,
@@ -36,8 +41,10 @@ xlab="Interval",
 ylab="Average steps")
 
 interval_avg$interval[which.max(interval_avg$steps)]
+```
 
 ## Imputing missing values
+```{r}
 sum(is.na(activity$steps))
 
 activity2 <- activity
@@ -50,9 +57,10 @@ main="Histogram of Steps (Imputed)",
 xlab="Steps")
 mean(daily2$steps)
 median(daily2$steps)
-
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
+```{r}
 activity2$day <- ifelse(weekdays(activity2$date) %in% c("Saturday","Sunday"),
 "weekend","weekday")
 
@@ -62,4 +70,4 @@ library(ggplot2)
 ggplot(by_interval, aes(interval, steps)) +
 geom_line() +
 facet_wrap(~day)
-
+```
